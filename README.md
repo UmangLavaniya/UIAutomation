@@ -14,7 +14,7 @@
 2. [Selenium](https://www.seleniumhq.org/) - This is library used to intaract with browser and perform all the actions required.
 3. [TestNG](https://testng.org/doc/index.html) - Test framework used to organise and run tests.
 4. [lombok](https://projectlombok.org/) - To generate setter,getter,constructors and toString methods at runtime for POJO as data providers. 
-5. Java 1.8 as programming language.
+5. Java 11 as programming language.
 6. Extent,TestNG - For reporting after execution of test cases.
 7. Log4j - For logging information, warnings and errors.
 
