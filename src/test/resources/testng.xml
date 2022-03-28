@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Amazon Test Suite" verbose="1" parallel="tests"
+	thread-count="2">
+	<listeners>
+		<listener
+			class-name="com.common.core.framework.listeners.ExtentReportListener" />
+	</listeners>
+
+	<test name="Amazon Test Case 1">
+		<classes>
+			<class
+				name="com.tbsq.navigation.tests.AmazonSearchNavigationTest" />
+		</classes>
+	</test>
+
+	<test name="Amazon Test Case 2">
+		<classes>
+
+			<class name="com.tbsq.navigation.tests.SignInSignOutTest" />
+		</classes>
+	</test>
+
+</suite>
