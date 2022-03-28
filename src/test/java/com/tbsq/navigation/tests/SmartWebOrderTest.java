@@ -7,11 +7,11 @@ import org.testng.annotations.Test;
 public class SmartWebOrderTest extends SmartWebBaseTest{
 
     @Test(priority = 1, dataProvider = "orderPlacementDP", dataProviderClass = TBSQTestDP.class)
-    public void multipleTextSearch(String country,String phoneNumber,int quantity) {
+    public void foodOrderTest(String country,String phoneNumber,int quantity) {
         LoginPage loginPage=new LoginPage(this.driver);
-        this.driver=loginPage.driver;
+        //this.driver=loginPage.driver;
         loginPage.logIn(country,phoneNumber);
-        this.driver=loginPage.driver;
+        //this.driver=loginPage.driver;
         HomePage homePage = new HomePage(loginPage.driver);
         homePage.dineInSelection();
         MenuPage menuPage = new MenuPage(loginPage.driver);

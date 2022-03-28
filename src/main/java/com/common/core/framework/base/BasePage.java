@@ -35,7 +35,7 @@ public class BasePage extends DriverFactory {
 				logger.info("Driver is null and initializing it in BasePage class");
 				elementActions = new ElementActions(this.driver);
 				logger.debug("Initializing driver in BasePage");
-				this.driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
+				this.driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 				URLAction urlAction = new URLAction();
 				urlAction.launchUrl(this.driver);
 				driver=this.driver;

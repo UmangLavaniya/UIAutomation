@@ -37,7 +37,7 @@ public class ElementActions {
 
 	/**
 	 * 
-	 * @param webelement
+	 * @param element
 	 * @param value
 	 */
 	public void selectOption(@NonNull WebElement element, @NonNull Object value) {
@@ -49,11 +49,11 @@ public class ElementActions {
 				if (option.isDisplayed()) {
 					if (value instanceof String) {
 						select.selectByValue((String) value);
-						logger.debug("Value is String");
+						logger.info("Value is String");
 						break;
 					} else if (value instanceof Integer) {
 						select.selectByIndex((Integer) value);
-						logger.debug("Value is int");
+						logger.info("Value is int");
 						break;
 					}
 				}
@@ -63,24 +63,37 @@ public class ElementActions {
 		}
 	}
 
-	
+	/**
+	 *
+	 * @param element
+	 * @param value
+	 */
+	public void selectFirstEnabledOption(@NonNull String xpath) {
+		List<WebElement> options = driver.findElements(By.xpath(xpath));
+		logger.info("Size of option is : " + options.size());
+		for (WebElement option : options) {
+			if (option.isEnabled()) {
+				option.click();
+			}
+		}
+	}
 
 	/**
 	 * 
-	 * @param Selector
-	 * @return Selector
+	 * @param selector
+	 * @return selector
 	 */
-	public By getTagName(@NonNull String Selector) {
+	public By getTagName(@NonNull String selector) {
 		waitForPageLoad();
-		return By.tagName(Selector);
+		return By.tagName(selector);
 	}
 
 	/**
 	 * Below method used to wait for full dom to load
 	 */
 	public void waitForPageLoad() {
-		logger.debug("Waiting for page load");
-		WebDriverWait wait = new WebDriverWait(driver, 30, 500);
+		logger.info("Waiting for page load");
+		WebDriverWait wait = new WebDriverWait(driver, 20, 500);
 		wait.until((WebDriver webDriver) -> {
 			JavascriptExecutor javascriptExecutor = (JavascriptExecutor) webDriver;
 			return "complete".equals(javascriptExecutor.executeScript("return document.readyState"));
@@ -88,10 +101,9 @@ public class ElementActions {
 	}
 
 	/**
-	 * @param element
-	 */
+	 * @param element */
 	public void mouseHover(@NonNull WebElement element) {
-		logger.debug("Performing mouse hover operation on : " + element);
+		logger.info("Performing mouse hover operation on : " + element);
 		waitForPageLoad();
 		Actions action = new Actions(driver);
 		action.moveToElement(element).build().perform();
@@ -103,7 +115,7 @@ public class ElementActions {
 	 */
 	public void waitForElementToBeClickable(@NonNull WebElement element) {
 		try {
-			logger.debug("Waiting for element to be clickable: " + element);
+			logger.info("Waiting for element to be clickable: " + element);
 			waitForPageLoad();
 			wait = new WebDriverWait(driver, Constant.ELEMENT_WAIT_TIME);
 			wait.until(ExpectedConditions.elementToBeClickable(element));
@@ -116,7 +128,18 @@ public class ElementActions {
 	 * @param element
 	 */
 	public void click(WebElement element) {
-		logger.debug("Clicking element : " + element);
+		logger.info("Clicking element : " + element);
+		waitForPageLoad();
+		waitForElementToBeClickable(element);
+		element.click();
+	}
+
+	/**
+	 * @param path
+	 */
+	public void click(String xpath) {
+		WebElement element=driver.findElementByXPath(xpath);
+		logger.info("Clicking element : " + element);
 		waitForPageLoad();
 		waitForElementToBeClickable(element);
 		element.click();
@@ -126,7 +149,7 @@ public class ElementActions {
 	 * @param element
 	 */
 	public void clear(WebElement element) {
-		logger.debug("Clearing text of element : " + element);
+		logger.info("Clearing text of element : " + element);
 		waitForPageLoad();
 		waitForElementToBeClickable(element);
 		element.clear();
@@ -139,7 +162,7 @@ public class ElementActions {
 	 */
 	public void sendKeys(@NonNull WebElement element, @NonNull String value) {
 		try {
-			logger.debug("Sending : "+value+ " for element : " + element);
+			logger.info("Sending : "+value+ " for element : " + element);
 			waitForPageLoad();
 			waitForElementToBeClickable(element);
 			element.sendKeys(value);
@@ -155,7 +178,7 @@ public class ElementActions {
 	 */
 	public String getText(@NonNull WebElement element)
 	{
-		logger.debug("Getting text of element : " + element);
+		logger.info("Getting text of element : " + element);
 		waitForPageLoad();
 		waitForElementToBeClickable(element);
 		return element.getText();
@@ -167,7 +190,7 @@ public class ElementActions {
 	 */
 	public void waitForElementToDisappear(@NonNull WebElement element)
 	{
-		logger.debug("Waiting for element : "+ element+ " to disappear");
+		logger.info("Waiting for element : "+ element+ " to disappear");
 		while (element.isDisplayed()) {
 			try {
 				logger.info("Element is still present");
@@ -178,4 +201,32 @@ public class ElementActions {
 			}
 		}
 	}
+
+	/**
+	 *
+	 * @param element
+	 */
+	public boolean isDisplayed(@NonNull WebElement element)
+	{
+		logger.info("Checking for element : "+ element);
+		waitForElementToBeClickable(element);
+		return element.isDisplayed();
+	}
+
+	/**
+	 *
+	 * @param frameName
+	 */
+	public void switchToFrame(String frameName)
+	{
+		logger.info("Switching to frame : "+ frameName);
+		driver.switchTo().frame(frameName);
+	}
+
+	public void switchToDefaultContent()
+	{
+		logger.info("Switching to default content");
+		driver.switchTo().defaultContent();
+	}
+
 }
